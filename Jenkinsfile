@@ -1,4 +1,5 @@
 pipeline {
+  agent any
   environment {
     registry = "734468820065.dkr.ecr.us-east-2.amazonaws.com/ecr-repo"
     //registryCredential = 'dockerhub'
