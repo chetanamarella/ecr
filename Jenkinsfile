@@ -8,13 +8,13 @@ pipeline {
   agent none
   stages {
     stage('Cloning Git') {
-      agent {label 'master'}
+     // agent {label 'master'}
       steps {
         git 'https://github.com/chetanamarella/ecr.git'
       }
     }
     stage('Building image') {
-      agent {label 'master'}
+     // agent {label 'master'}
       steps{
         script {
           dockerImage = docker.build registry + ":latest"
@@ -22,7 +22,7 @@ pipeline {
       }
     }
     stage('Pushing Image to AWS ECR') {
-      agent {label 'master'}
+    //  agent {label 'master'}
       steps{
         script {
           sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 734468820065.dkr.ecr.us-east-2.amazonaws.com'
