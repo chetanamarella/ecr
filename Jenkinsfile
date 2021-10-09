@@ -1,7 +1,7 @@
 pipeline {
   environment {
-    registry = "chetana3/scan"
-    registryCredential = 'dockerhub'
+    registry = "734468820065.dkr.ecr.us-east-2.amazonaws.com/ecr-repo"
+    //registryCredential = 'dockerhub'
     dockerImage = ''
     
   }
@@ -10,7 +10,7 @@ pipeline {
     stage('Cloning Git') {
       agent {label 'master'}
       steps {
-        git 'https://github.com/chetanamarella/scanimage.git'
+        git 'https://github.com/chetanamarella/ecr.git'
       }
     }
     stage('Building image') {
@@ -21,17 +21,18 @@ pipeline {
         }
       }
     }
-    stage('Pushing Image') {
+    stage('Pushing Image to AWS ECR') {
       agent {label 'master'}
       steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+          sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 734468820065.dkr.ecr.us-east-2.amazonaws.com'
+          sh 'docker push 734468820065.dkr.ecr.us-east-2.amazonaws.com/ecr-repo:latest'
           }
         }
       }
     }
-    stage('Scan Image') {
+}
+   /* stage('Scan Image') {
       agent {label 'master'}
       steps{
         script {
@@ -40,7 +41,7 @@ pipeline {
           anchore name: 'anchore_images' 
         }
       }
-    }
+    } */
     /*
     stage('Removing container if it already exists') {
       agent {label 'master'}
@@ -75,7 +76,7 @@ pipeline {
         }
       }
     }  */
-    stage('Deploy through kubernetes') {
+    /*stage('Deploy through kubernetes') {
       agent {label 'slave'}
       steps{
         sh 'kubectl create -f deploy.yml'
@@ -85,3 +86,4 @@ pipeline {
 
   }
 }
+*/
