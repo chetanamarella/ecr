@@ -26,11 +26,28 @@ pipeline {
           }
         }
       }
+    stage('Remove files if they already exist') {
+      steps{
+        sh '''#!/bin/bash
+                file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
+                if [ -f "$file1" ]; then
+                sh 'kubectl delete -f deploy.yml'
+                fi
+                
+                file2=/var/lib/jenkins/workspace/deploy-eks/service.yml
+                if [ -f "$file2" ]; then
+                sh 'kubectl delete -f service.yml'
+                fi
+          
+              
+                '''
+      }
+    }
     stage('Deploying ECR image to EKS') {
       steps {
         withAWS(credentials: 'aws', region: 'us-east-2') {
         sh 'kubectl create -f deploy.yml'
-       // sh 'kubectl create -f service.yml'
+        sh 'kubectl create -f service.yml'
         }
       }
     }
@@ -48,31 +65,9 @@ pipeline {
           anchore name: 'anchore_images' 
         }
       }
-    } */
-    /*
-    stage('Removing container if it already exists') {
-      agent {label 'master'}
-      steps{
-        sh '''#!/bin/bash
-                x=$( docker container inspect -f '{{.State.Status}}' scanContainer )
-                echo $x
-                if [ $x == "running" ]
-                then
-                        sudo docker stop scanContainer
-                        sudo docker rm scanContainer
-                elif [ $x == "exited" ]
-                then
-                        sudo docker rm scanContainer
-                        
-                else
-                        echo "Container does not exist"
-                fi
-                
-                '''
-          
-       
-      }
     }
+    
+   
     
     stage('Deploying to test server') {
       agent {label 'master'}
@@ -81,15 +76,4 @@ pipeline {
           dockerImage.run('-itd --name scanContainer -p 8087:80')
           
         }
-      }
-    }  */
-    /*stage('Deploy to eks cluster') {
-      steps{
-        sh 'kubectl create -f deploy.yml'
-        sh 'kubectl create -f service.yml'
-      }
-    }
-
-  }
-}
-*/
+      } */
