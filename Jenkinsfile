@@ -28,12 +28,15 @@ pipeline {
       }
     stage('Deploying ECR image to EKS') {
       steps {
+        withAWS(credentials: 'aws', region: 'us-east-2') {
         sh 'kubectl create -f deploy.yml'
        // sh 'kubectl create -f service.yml'
+        }
       }
     }
   }
 }
+
  
 
    /* stage('Scan Image') {
