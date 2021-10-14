@@ -16,7 +16,7 @@ spec:
   spec: 
    containers:
    - name: ecr-eks
-     image:
+     image: 734468820065.dkr.ecr.us-east-2.amazonaws.com/ecr-repo:latest
      ports: 
      - containerPort: 80
     
