@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: eks-deploy
+ labels:
+  app: eks
+spec: 
+ replicas: 2
+ selector:
+  matchLabels: 
+   app: eks
+ template:
+  metadata:
+   labels: 
+    app: eks
+  spec: 
+   containers:
+   - name: ecr-eks
+     image:
+     ports: 
+     - containerPort: 80
+    
