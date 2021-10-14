@@ -2,20 +2,16 @@ pipeline {
   agent any
   environment {
     registry = "734468820065.dkr.ecr.us-east-2.amazonaws.com/ecr-repo"
-    //registryCredential = 'dockerhub'
     dockerImage = ''
     
   }
-  //agent none
   stages {
     stage('Cloning Git') {
-     // agent {label 'master'}
       steps {
         git 'https://github.com/chetanamarella/ecr.git'
       }
     }
     stage('Building image') {
-     // agent {label 'master'}
       steps{
         script {
           dockerImage = docker.build registry + ":latest"
@@ -23,7 +19,6 @@ pipeline {
       }
     }
     stage('Pushing Image to AWS ECR') {
-    //  agent {label 'master'}
       steps{
         script {
           sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 734468820065.dkr.ecr.us-east-2.amazonaws.com'
@@ -77,8 +72,7 @@ pipeline {
         }
       }
     }  */
-    /*stage('Deploy through kubernetes') {
-      agent {label 'slave'}
+    /*stage('Deploy to eks cluster') {
       steps{
         sh 'kubectl create -f deploy.yml'
         sh 'kubectl create -f service.yml'
