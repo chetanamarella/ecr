@@ -12,22 +12,30 @@ pipeline {
       }
     }
     stage('Building image') {
-      steps{
+      steps {
         script {
           dockerImage = docker.build registry + ":latest"
         }
       }
     }
     stage('Pushing Image to AWS ECR') {
-      steps{
+      steps {
         script {
           sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 734468820065.dkr.ecr.us-east-2.amazonaws.com'
           sh 'docker push 734468820065.dkr.ecr.us-east-2.amazonaws.com/ecr-repo:latest'
           }
         }
       }
+    stage('Deploying ECR image to EKS') {
+      steps {
+        sh 'kubectl create -f deploy.yml'
+        sh 'kubectl create -f service.yml'
+      }
     }
+  }
 }
+ 
+
    /* stage('Scan Image') {
       agent {label 'master'}
       steps{
