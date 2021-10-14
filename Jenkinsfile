@@ -29,7 +29,7 @@ pipeline {
     stage('Deploying ECR image to EKS') {
       steps {
         sh 'kubectl create -f deploy.yml'
-        sh 'kubectl create -f service.yml'
+       // sh 'kubectl create -f service.yml'
       }
     }
   }
