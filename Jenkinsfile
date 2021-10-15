@@ -36,7 +36,7 @@ pipeline {
                 fi
                 
                 file2=/var/lib/jenkins/workspace/service.yml
-                if [ -f "$file2 ]; then
+                if [ -f "$file2" ]; then
                   kubectl delete svc eks-service
                 fi
           
