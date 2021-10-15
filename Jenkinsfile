@@ -33,7 +33,7 @@ pipeline {
                 if [ -f "$file1" ]; then
                   echo "file exists"
                 else
-                  echo "It doesn't exist"
+                  echo "It doesnot exist"
                 fi
                 
              /*   file2=/var/lib/jenkins/workspace/deploy-eks/service.yml
