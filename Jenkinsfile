@@ -31,12 +31,12 @@ pipeline {
         sh '''#!/bin/bash
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
                 if [ -f "$file1" ]; then
-                echo "$file1"
+                  sh 'kubectl delete deployment eks-deploy'
                 fi
                 
                 file2=/var/lib/jenkins/workspace/deploy-eks/service.yml
                 if [ -f "$file2" ]; then
-                sh 'kubectl delete svc eks-service'
+                  sh 'kubectl delete svc eks-service'
                 fi
           
               
@@ -46,8 +46,8 @@ pipeline {
     stage('Deploying ECR image to EKS') {
       steps {
         withAWS(credentials: 'aws', region: 'us-east-2') {
-        sh 'kubectl delete deployment eks-deploy'
-        sh 'kubectl delete svc eks-service'
+        sh 'kubectl create -f deploy.yml'
+        sh 'kubectl create -f service.yml'
         }
       }
     }
