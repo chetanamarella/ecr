@@ -32,7 +32,7 @@ pipeline {
         sh '''#!/bin/bash
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
                 if [ -f "$file1" ]; then
-                  sh 'kubectl delete deployment eks-deploy'
+                  kubectl delete deployment eks-deploy
                 else
                   echo "It doesnot exist"
                 fi
