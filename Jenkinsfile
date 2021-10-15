@@ -28,16 +28,18 @@ pipeline {
       }
     stage('Remove files if they already exist') {
       steps{
+        withAWS(credentials: 'aws', region: 'us-east-2') {
         sh '''#!/bin/bash
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
                 if [ -f "$file1" ]; then
-                   kubectl delete deployment eks-deploy
+                  sh 'kubectl delete deployment eks-deploy'
                 else
                   echo "It doesnot exist"
                 fi
           
               
                 '''
+        }
       }
     } 
     stage('Deploying ECR image to EKS') {
