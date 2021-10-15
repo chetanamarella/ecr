@@ -31,13 +31,15 @@ pipeline {
         sh '''#!/bin/bash
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
                 if [ -f "$file1" ]; then
-                  sh 'kubectl delete deployment eks-deploy'
+                  echo "file exists"
+                else
+                  echo "It doesn't exist"
                 fi
                 
-                file2=/var/lib/jenkins/workspace/deploy-eks/service.yml
+             /*   file2=/var/lib/jenkins/workspace/deploy-eks/service.yml
                 if [ -f "$file2" ]; then
                   sh 'kubectl delete svc eks-service'
-                fi
+                fi */
           
               
                 '''
