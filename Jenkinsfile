@@ -26,7 +26,7 @@ pipeline {
           }
         }
       }
-    stage('Remove files if they already exist') {
+ /*   stage('Remove files if they already exist') {
       steps{
         sh '''#!/bin/bash
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
@@ -42,12 +42,12 @@ pipeline {
               
                 '''
       }
-    } 
+    } */
     stage('Deploying ECR image to EKS') {
       steps {
         withAWS(credentials: 'aws', region: 'us-east-2') {
-        sh 'kubectl create -f deploy.yml'
-        sh 'kubectl create -f service.yml'
+        sh 'kubectl delete deployment eks-deploy'
+        sh 'kubectl delete svc eks-service'
         }
       }
     }
