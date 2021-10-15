@@ -35,11 +35,6 @@ pipeline {
                 else
                   echo "It doesnot exist"
                 fi
-                
-             /*   file2=/var/lib/jenkins/workspace/deploy-eks/service.yml
-                if [ -f "$file2" ]; then
-                  sh 'kubectl delete svc eks-service'
-                fi */
           
               
                 '''
