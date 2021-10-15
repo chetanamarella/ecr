@@ -31,7 +31,7 @@ pipeline {
         sh '''#!/bin/bash
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
                 if [ -f "$file1" ]; then
-                  echo "file exists"
+                   kubectl delete deployment eks-deploy
                 else
                   echo "It doesnot exist"
                 fi
@@ -44,7 +44,7 @@ pipeline {
       steps {
         withAWS(credentials: 'aws', region: 'us-east-2') {
         sh 'kubectl create -f deploy.yml'
-        sh 'kubectl create -f service.yml'
+      
         }
       }
     }
