@@ -33,8 +33,11 @@ pipeline {
                 file1=/var/lib/jenkins/workspace/deploy-eks/deploy.yml
                 if [ -f "$file1" ]; then
                   kubectl delete deployment eks-deploy
-                else
-                  echo "It doesnot exist"
+                fi
+                
+                file2=/var/lib/jenkins/workspace/service.yml
+                if [ -f "$file2 ]; then
+                  kubectl delete svc eks-service
                 fi
           
               
@@ -46,6 +49,7 @@ pipeline {
       steps {
         withAWS(credentials: 'aws', region: 'us-east-2') {
         sh 'kubectl create -f deploy.yml'
+        sh 'kubectl apply -f service.yml'  
       
         }
       }
